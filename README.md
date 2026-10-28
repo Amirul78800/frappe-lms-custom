@@ -4,6 +4,8 @@ A multi-arch, production-ready Docker image for [Frappe LMS](https://github.com/
 
 [![Build and Push](https://github.com/Amirul78800/frappe-lms-custom/actions/workflows/build.yml/badge.svg)](https://github.com/Amirul78800/frappe-lms-custom/actions)
 [![Docker Hub](https://img.shields.io/badge/dockerhub-amirul123%2Flms--custom-blue?logo=docker&style=flat-square)](https://hub.docker.com/r/amirul123/lms-custom)
+[![Docker Pulls](https://img.shields.io/docker/pulls/amirul123/lms-custom?style=flat-square)](https://hub.docker.com/r/amirul123/lms-custom)
+[![Docker Image Size](https://img.shields.io/docker/image-size/amirul123/lms-custom/latest?style=flat-square)](https://hub.docker.com/r/amirul123/lms-custom)
 [![License](https://img.shields.io/github/license/Amirul78800/frappe-lms-custom?style=flat-square)](LICENSE)
 
 ---
