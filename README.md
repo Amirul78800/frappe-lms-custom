@@ -22,7 +22,6 @@ Installing apps via bench get-app inside a running container only writes to the 
 Related upstream issues:
 - https://github.com/frappe/lms/issues/2350
 - https://github.com/frappe/lms/issues/2467
-- https://github.com/frappe/payments/issues/200
 
 ## What this does
 
@@ -31,15 +30,10 @@ correctly listing both:
 
 ```json
 [
-  { "url": "https://github.com/frappe/payments", "branch": "develop" },
+  { "url": "https://github.com/frappe/payments", "branch": "version-16" },
   { "url": "https://github.com/frappe/lms", "branch": "develop" }
 ]
 ```
-
-`payments` doesn't have a dedicated `version-16` branch yet (see
-[frappe/payments#200](https://github.com/frappe/payments/issues/200)) — v16 compatibility landed on
-its `develop` branch instead, so that's what's pinned here. Swap to `version-16` once that branch
-exists upstream.
 
 ## Bundled Applications (`apps.json`)
 
@@ -47,7 +41,7 @@ exists upstream.
 | Application | Branch / Target | Purpose |
 | :--- | :--- | :--- |
 | Frappe Framework | version-16 | Core web runtime and database layer |
-| Frappe Payments | develop | Billing, payment gateway integrations, and prerequisites |
+| Frappe Payments | version-16 | Billing, payment gateway integrations, and prerequisites |
 | Frappe LMS | develop | Course management, certifications, quizzes, and student portals |
 
 > **Note on branches:** The `payments` app does not currently maintain an active `version-16` branch; Frappe v16 compatibility is merged into `develop`. This build tracks `develop` for `payments` and will transition to `version-16` once tagged upstream.
