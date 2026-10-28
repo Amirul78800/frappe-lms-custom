@@ -1,0 +1,7 @@
+.git
+.github
+*.md
+LICENSE
+compose.yaml
+example.env
+.env

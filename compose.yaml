@@ -1,0 +1,123 @@
+services:
+  backend:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - db
+      - redis-cache
+      - redis-queue
+
+  frontend:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    command:
+      - nginx-entrypoint.sh
+    environment:
+      - BACKEND=backend:8000
+      - FRAPPE_SITE_NAME_HEADER=${SITE_NAME:-frontend}
+      - SOCKETIO=websocket:9000
+      - UPSTREAM_REAL_IP_ADDRESS=127.0.0.1
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    ports:
+      - "${CONTAINER_PORT:-8080}:8080"
+    depends_on:
+      - backend
+      - websocket
+
+  websocket:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    command:
+      - node
+      - /home/frappe/frappe-bench/apps/frappe/socketio.js
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - redis-queue
+
+  queue-default:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - default
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - redis-queue
+
+  queue-short:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - short
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - redis-queue
+
+  queue-long:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - long
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - redis-queue
+
+  scheduler:
+    image: amirul123/lms-custom:latest
+    restart: unless-stopped
+    command:
+      - bench
+      - schedule
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - redis-queue
+
+  redis-queue:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-queue-data:/data
+
+  redis-cache:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-cache-data:/data
+
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-mariadb_root_pass}
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  sites:
+  db-data:
+  redis-queue-data:
+  redis-cache-data:
