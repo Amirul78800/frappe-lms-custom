@@ -1,4 +1,10 @@
 [
-  { "url": "https://github.com/frappe/payments", "branch": "develop" },
-  { "url": "https://github.com/frappe/lms", "branch": "develop" }
+  {
+    "url": "https://github.com/frappe/payments",
+    "branch": "version-16"
+  },
+  {
+    "url": "https://github.com/frappe/lms",
+    "branch": "develop"
+  }
 ]
